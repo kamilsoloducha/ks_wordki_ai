@@ -1,21 +1,4 @@
-services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: wordki-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: wordki
-      POSTGRES_USER: wordki
-      POSTGRES_PASSWORD: wordki
-    ports:
-      - "5432:5432"
-    volumes:
-      - wordki_postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U wordki -d wordki"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-volumes:
-  wordki_postgres_data:
+# Ten sam stack co w Deployment/docker-compose.yml — z Bff/Local:
+#   docker compose --env-file ../Deployment/deployment.env up -d --build
+include:
+  - path: ../Deployment/docker-compose.yml

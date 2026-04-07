@@ -1,0 +1,52 @@
+# Wymaga pliku deployment.env (skopiuj z env.example).
+# Uruchom z katalogu Bff/Deployment:
+#   docker compose --env-file deployment.env up -d --build
+#
+# Serwisy w sieci bridge „wordki”: BFF łączy się z Postgres po Host=postgres
+# (zgodnie z ConnectionStrings w deployment.env; alias DNS: wordki-postgres).
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: wordki-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: wordki
+      POSTGRES_USER: wordki
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5432:5432"
+    volumes:
+      - wordki_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wordki -d wordki"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      wordki:
+        aliases:
+          - wordki-postgres
+
+  bff:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    image: ${IMAGE_NAME:-wordki-bff}:${IMAGE_TAG:-latest}
+    container_name: ${CONTAINER_NAME:-wordki-bff}
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${HOST_PORT:-5000}:5000"
+    env_file:
+      - deployment.env
+    networks:
+      - wordki
+
+networks:
+  wordki:
+    driver: bridge
+
+volumes:
+  wordki_postgres_data:
