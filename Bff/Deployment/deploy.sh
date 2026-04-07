@@ -43,7 +43,7 @@ grep -v '^[[:space:]]*#' "${ENV_FILE}" | grep -v '^[[:space:]]*$' | grep -v '^IM
 
 docker run -d \
   --name "${CONTAINER_NAME}" \
-  --network host \
+  -p "${HOST_PORT}:${HOST_PORT}" \
   --restart unless-stopped \
   --env-file "${RUNTIME_ENV}" \
   "${IMAGE_REF}"
