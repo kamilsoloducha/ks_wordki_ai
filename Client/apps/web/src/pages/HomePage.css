@@ -1,0 +1,25 @@
+.home-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-page__canvas {
+  flex: 1;
+  margin: 1.5rem;
+  border-radius: 16px;
+  border: 1px dashed color-mix(in srgb, var(--border) 80%, var(--accent));
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--accent-bg) 40%, transparent) 0%,
+    transparent 55%
+  );
+  min-height: 12rem;
+}
+
+@media (max-width: 640px) {
+  .home-page__canvas {
+    margin: 1rem;
+    border-radius: 12px;
+  }
+}

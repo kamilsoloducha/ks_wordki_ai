@@ -1,0 +1,50 @@
+@Api_HostAddress = http://localhost:5129
+@SessionId = 55555555-5555-5555-5555-555555555555
+@CardId = 66666666-6666-6666-6666-666666666666
+
+### Lessons Health
+GET {{Api_HostAddress}}/api/lessons/health
+Accept: application/json
+
+###
+
+### Create lesson (userId = external user Guid z modułu Users)
+POST {{Api_HostAddress}}/api/lessons?userId=00000000-0000-0000-0000-000000000001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "lessonKind": "flashcards",
+  "wordCount": 20
+}
+
+###
+
+### Dodaj wynik powtórzenia (lessonId z utworzonej lekcji; questionResultId = cards.results.id strony pytania)
+POST {{Api_HostAddress}}/api/lessons/1/repetitions?userId=00000000-0000-0000-0000-000000000001
+Content-Type: application/json
+Accept: application/json
+
+{
+  "questionResultId": 42,
+  "result": true
+}
+
+###
+
+### Get Next Lesson Card
+GET {{Api_HostAddress}}/api/lessons/next
+Accept: application/json
+
+###
+
+### Submit Lesson Answer
+POST {{Api_HostAddress}}/api/lessons/{{SessionId}}/answer
+Content-Type: application/json
+Accept: application/json
+
+{
+  "cardId": "{{CardId}}",
+  "isCorrect": true,
+  "userAnswer": "sample answer"
+}

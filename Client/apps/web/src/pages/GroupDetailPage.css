@@ -1,0 +1,291 @@
+.group-detail-page__inner {
+  max-width: 36rem;
+}
+
+.group-detail-page__back-nav {
+  margin: 0 0 0.85rem;
+}
+
+.group-detail-page__back-link {
+  display: inline-block;
+}
+
+.group-detail-page__toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.group-detail-page__title-inline {
+  margin-bottom: 0.25rem;
+}
+
+.group-detail-page__subtitle {
+  margin: -0.25rem 0 1rem;
+  font-size: 0.875rem;
+  color: var(--text);
+}
+
+.group-detail-page__subtitle-tight {
+  margin: 0 0 0.5rem;
+}
+
+.group-detail-page__add-card-btn {
+  flex-shrink: 0;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--accent) 28%, transparent);
+  transition: filter 0.15s ease;
+}
+
+.group-detail-page__add-card-btn:hover {
+  filter: brightness(1.06);
+}
+
+.group-detail-page__add-card-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.group-detail-page__search {
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.group-detail-page__search-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.group-detail-page__search-input {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 1rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.group-detail-page__search-input:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.group-detail-page__search-empty {
+  margin: 0.65rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.group-detail-page__status,
+.group-detail-page__empty {
+  margin: 0.25rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.group-detail-page__empty {
+  padding: 1rem 1.1rem;
+  border-radius: 10px;
+  border: 1px dashed color-mix(in srgb, var(--border) 85%, var(--accent));
+  background: color-mix(in srgb, var(--accent-bg) 22%, transparent);
+}
+
+.group-detail-page__list {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.group-detail-page__row-wrap {
+  margin: 0;
+  list-style: none;
+}
+
+/* Jedna ramka obejmuje treść karty i przycisk usuwania */
+.group-detail-page__row-card {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 94%, var(--accent-bg));
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.group-detail-page__row-card:hover {
+  border-color: color-mix(in srgb, var(--border) 55%, var(--accent));
+  background: color-mix(in srgb, var(--bg) 88%, var(--accent-bg));
+}
+
+.group-detail-page__row-card .group-detail-page__row {
+  flex: 1;
+  min-width: 0;
+}
+
+.group-detail-page__delete-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0.35rem 0.45rem 0.35rem 0;
+  min-width: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  color: #fefce8;
+  background: #c02626;
+  box-shadow: 0 1px 2px color-mix(in srgb, #7f1d1d 35%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    background 0.15s ease,
+    opacity 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.12s ease;
+}
+
+.group-detail-page__row-card:hover .group-detail-page__delete-btn,
+.group-detail-page__row-card:focus-within .group-detail-page__delete-btn,
+.group-detail-page__delete-btn:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.group-detail-page__delete-btn:disabled {
+  opacity: 1;
+  pointer-events: auto;
+  cursor: not-allowed;
+  background: #9f1a1a;
+}
+
+.group-detail-page__delete-btn:hover:not(:disabled) {
+  background: #dc2626;
+  box-shadow: 0 2px 6px color-mix(in srgb, #7f1d1d 45%, transparent);
+}
+
+.group-detail-page__delete-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.group-detail-page__delete-icon-wrap {
+  display: flex;
+  width: 1.2rem;
+  height: 1.2rem;
+  line-height: 0;
+  color: inherit;
+}
+
+.group-detail-page__delete-icon-wrap svg {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.group-detail-page__delete-loading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #fefce8;
+}
+
+.group-detail-page__delete-btn:focus-visible {
+  outline: 2px solid #f87171;
+  outline-offset: 2px;
+}
+
+.group-detail-page__row {
+  margin: 0;
+  display: block;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 0.85rem 0.65rem 0.85rem 1rem;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  transition: background 0.15s ease;
+}
+
+.group-detail-page__row:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.group-detail-page__row-content {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1rem;
+}
+
+@media (max-width: 520px) {
+  .group-detail-page__row-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.group-detail-page__word {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.group-detail-page__label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  opacity: 0.75;
+}
+
+.group-detail-page__text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-h);
+  letter-spacing: -0.02em;
+  word-break: break-word;
+}
+
+.group-detail-page__sub {
+  font-size: 0.8125rem;
+  color: var(--text);
+  line-height: 1.4;
+  word-break: break-word;
+}

@@ -1,0 +1,176 @@
+.register-page {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.register-page__card {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.register-page__title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
+  color: var(--text-h);
+}
+
+.register-page__lead {
+  margin: 0 0 1.5rem;
+  color: var(--text);
+  font-size: 0.9375rem;
+}
+
+.register-page__link {
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.register-page__link:hover {
+  text-decoration: underline;
+}
+
+.register-page__banner {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  background: color-mix(in srgb, #dc2626 12%, var(--bg));
+  color: color-mix(in srgb, #dc2626 85%, var(--text-h));
+  border: 1px solid color-mix(in srgb, #dc2626 25%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  .register-page__banner {
+    background: color-mix(in srgb, #f87171 14%, var(--bg));
+    color: #fecaca;
+    border-color: color-mix(in srgb, #f87171 30%, transparent);
+  }
+}
+
+.register-page__banner--success {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  text-align: left;
+  background: color-mix(in srgb, #16a34a 14%, var(--bg));
+  color: color-mix(in srgb, #166534 90%, var(--text-h));
+  border: 1px solid color-mix(in srgb, #16a34a 28%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  .register-page__banner--success {
+    background: color-mix(in srgb, #4ade80 12%, var(--bg));
+    color: #bbf7d0;
+    border-color: color-mix(in srgb, #4ade80 28%, transparent);
+  }
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+.register-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.register-form__field label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.register-form__field input {
+  font: inherit;
+  font-size: 1rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.register-form__field input:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.register-form__field input.has-error {
+  border-color: color-mix(in srgb, #dc2626 55%, var(--border));
+}
+
+.register-form__error {
+  font-size: 0.8125rem;
+  color: #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+  .register-form__error {
+    color: #f87171;
+  }
+}
+
+.register-form__hint {
+  font-size: 0.75rem;
+  color: var(--text);
+  opacity: 0.9;
+}
+
+.register-form__submit {
+  margin-top: 0.25rem;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.7rem 1.25rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 28%, transparent);
+  transition:
+    filter 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.register-form__submit:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.register-form__submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.register-form__submit:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.register-page__back {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: 0.9375rem;
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.register-page__back:hover {
+  text-decoration: underline;
+}

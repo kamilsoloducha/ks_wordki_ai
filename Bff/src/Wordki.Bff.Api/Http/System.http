@@ -1,0 +1,11 @@
+@Api_HostAddress = http://localhost:5129
+
+### Root Redirect
+GET {{Api_HostAddress}}/
+Accept: application/json
+
+###
+
+### OpenAPI Document
+GET {{Api_HostAddress}}/openapi/v1.json
+Accept: application/json

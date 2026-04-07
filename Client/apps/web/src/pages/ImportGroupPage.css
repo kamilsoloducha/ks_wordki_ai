@@ -1,0 +1,190 @@
+.import-group-page__inner {
+  max-width: 40rem;
+  width: 100%;
+}
+
+.import-group-page__inner--wide {
+  max-width: min(56rem, 100%);
+}
+
+.import-group-page__back-nav {
+  margin: 0 0 1rem;
+}
+
+.import-group-page__lead {
+  margin-bottom: 1rem;
+  max-width: 38rem;
+}
+
+.import-group-page__form {
+  margin-top: 0.25rem;
+}
+
+.import-group-page__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.import-group-page__side-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1rem;
+}
+
+@media (max-width: 520px) {
+  .import-group-page__side-types {
+    grid-template-columns: 1fr;
+  }
+}
+
+.import-group-page__csv-field {
+  margin-bottom: 0.5rem;
+}
+
+.import-group-page__textarea {
+  min-height: 12rem;
+  font-family: var(--mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.import-group-page__hint {
+  margin: 0.45rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--text);
+  opacity: 0.9;
+}
+
+.import-group-page__hint code {
+  font-size: 0.8em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--code-bg);
+}
+
+.import-group-page__kbd {
+  display: inline-block;
+  font-size: 0.78em;
+  font-family: inherit;
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--code-bg) 70%, var(--bg));
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+.import-group-page__progress {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.import-group-page__actions {
+  margin-top: 0.25rem;
+}
+
+.import-group-page__cancel {
+  text-decoration: none;
+  text-align: center;
+}
+
+/* Live preview */
+.import-group-page__preview {
+  margin: 1.25rem 0 0;
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--code-bg) 30%, var(--bg));
+}
+
+.import-group-page__preview-title {
+  margin: 0 0 0.65rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.import-group-page__preview-empty {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: var(--text);
+  opacity: 0.9;
+}
+
+.import-group-page__preview-error {
+  margin: 0;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--text-h);
+  background: color-mix(in srgb, #fecaca 55%, var(--bg));
+  border: 1px solid color-mix(in srgb, #f87171 50%, var(--border));
+}
+
+.import-group-page__preview-count {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.import-group-page__preview-scroll {
+  max-height: min(50vh, 22rem);
+  overflow: auto;
+  margin: 0 -0.15rem;
+  padding: 0 0.15rem;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+}
+
+.import-group-page__preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.import-group-page__preview-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-align: left;
+  padding: 0.45rem 0.6rem;
+  font-weight: 600;
+  color: var(--text-muted, color-mix(in srgb, var(--text) 72%, transparent));
+  background: color-mix(in srgb, var(--code-bg) 85%, var(--bg));
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.import-group-page__preview-table td {
+  padding: 0.4rem 0.6rem;
+  vertical-align: top;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 88%, transparent);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.import-group-page__preview-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.import-group-page__preview-num {
+  width: 2.25rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted, color-mix(in srgb, var(--text) 72%, transparent));
+}
+
+.import-group-page__preview-cell {
+  color: var(--text-h);
+}
+
+.import-group-page__preview-cell--muted {
+  color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+  font-size: 0.8125rem;
+}

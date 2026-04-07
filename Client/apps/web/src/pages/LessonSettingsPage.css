@@ -1,0 +1,439 @@
+.lesson-settings {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.lesson-settings__inner {
+  width: 100%;
+  max-width: 28rem;
+}
+
+.lesson-settings__title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5rem;
+  color: var(--text-h);
+}
+
+.lesson-settings__lead {
+  margin: 0 0 1.25rem;
+  color: var(--text);
+  font-size: 0.9375rem;
+}
+
+.lesson-settings__step-intro {
+  margin: 0 0 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.lesson-settings__inline-count {
+  margin: 0 0 1.25rem;
+  font-size: 0.875rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.lesson-settings__picked {
+  margin-bottom: 1.25rem;
+  padding: 0.95rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--code-bg) 45%, var(--bg));
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--border) 35%, transparent);
+}
+
+.lesson-settings__picked-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.lesson-settings__picked-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  opacity: 0.85;
+}
+
+.lesson-settings__picked-value {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-h);
+  line-height: 1.35;
+}
+
+.lesson-settings__picked-value--direction {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.lesson-settings__picked-desc {
+  margin: 0.4rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.lesson-settings__change {
+  flex-shrink: 0;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--accent);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.lesson-settings__change:hover {
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+
+.lesson-settings__change:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.lesson-settings__section--active {
+  margin-bottom: 1.5rem;
+}
+
+.lesson-settings__summary {
+  margin-bottom: 1.75rem;
+  padding: 1rem 1.15rem;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+}
+
+.lesson-settings__summary--spaced {
+  margin-top: 0.25rem;
+}
+
+.lesson-settings__summary-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  opacity: 0.85;
+}
+
+.lesson-settings__summary-value {
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--text-h);
+  line-height: 1.1;
+}
+
+.lesson-settings__summary-unit {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-left: 0.25rem;
+}
+
+.lesson-settings__summary-hint {
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.lesson-settings__section {
+  margin-bottom: 1.5rem;
+}
+
+.lesson-settings__section-title {
+  margin: 0 0 0.65rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.lesson-settings__section-hint {
+  margin: -0.35rem 0 0.65rem;
+  font-size: 0.8125rem;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+/* Siatka 2 kolumny — stabilnie obok siebie (flex + min-width często zawijał każdy wiersz osobno) */
+.lesson-settings__options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.lesson-settings__option {
+  position: relative;
+  display: block;
+  min-width: 0;
+  margin: 0;
+  padding: 0.95rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease,
+    transform 0.12s ease;
+}
+
+.lesson-settings__option:hover:not(.lesson-settings__option--disabled) {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  background: color-mix(in srgb, var(--accent) 4%, var(--bg));
+}
+
+.lesson-settings__option:active:not(.lesson-settings__option--disabled) {
+  transform: scale(0.99);
+}
+
+.lesson-settings__option--selected {
+  border-color: color-mix(in srgb, var(--accent) 65%, var(--border));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 14%, var(--bg)) 0%,
+    color-mix(in srgb, #7c3aed 10%, var(--bg)) 100%
+  );
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent),
+    0 4px 14px color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--text-h);
+}
+
+.lesson-settings__option--selected .lesson-settings__option-title {
+  color: var(--text-h);
+}
+
+.lesson-settings__option:focus-within:not(.lesson-settings__option--disabled) {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--accent-bg),
+    0 2px 8px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.lesson-settings__option--selected:focus-within {
+  box-shadow:
+    0 0 0 3px var(--accent-bg),
+    0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent),
+    0 4px 14px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.lesson-settings__option--disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+
+/* Ukryty input — wygląd jak przyciski, nie jak radio */
+.lesson-settings__option input[type='radio'] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.lesson-settings__option-body {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.lesson-settings__option-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.lesson-settings__option-title--direction {
+  gap: 0.4rem;
+  font-variant-numeric: tabular-nums;
+  justify-content: center;
+}
+
+.lesson-settings__side-type {
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--text-h) 8%, var(--bg));
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+.lesson-settings__arrow {
+  color: var(--text);
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+.lesson-settings__badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.45rem;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--text) 12%, var(--bg));
+  color: var(--text);
+}
+
+.lesson-settings__option-desc {
+  margin: 0.45rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--text);
+  line-height: 1.45;
+  max-width: 100%;
+}
+
+.lesson-settings__word-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lesson-settings__word-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.lesson-settings__word-input-wrap input[type='number'] {
+  font: inherit;
+  font-size: 1.125rem;
+  font-weight: 600;
+  width: 5rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  text-align: center;
+}
+
+.lesson-settings__word-input-wrap input[type='number']:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.lesson-settings__word-input-wrap input[type='range'] {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--accent);
+}
+
+.lesson-settings__word-meta {
+  font-size: 0.8125rem;
+  color: var(--text);
+}
+
+.lesson-settings__cta {
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-settings__start {
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 28%, transparent);
+  transition:
+    filter 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.lesson-settings__start:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.lesson-settings__start:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.lesson-settings__start:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.lesson-settings__cta-hint {
+  margin: 0.65rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.lesson-settings__back {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-size: 0.9375rem;
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.lesson-settings__back:hover {
+  text-decoration: underline;
+}
+
+.lesson-settings__banner {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  background: color-mix(in srgb, #dc2626 12%, var(--bg));
+  color: color-mix(in srgb, #dc2626 85%, var(--text-h));
+  border: 1px solid color-mix(in srgb, #dc2626 25%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  .lesson-settings__banner {
+    background: color-mix(in srgb, #f87171 14%, var(--bg));
+    color: #fecaca;
+    border-color: color-mix(in srgb, #f87171 30%, transparent);
+  }
+}

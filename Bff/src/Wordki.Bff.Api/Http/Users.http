@@ -1,0 +1,63 @@
+@Api_HostAddress = http://localhost:5034
+@UserId = 11111111-1111-1111-1111-111111111111
+@SessionId = 22222222-2222-2222-2222-222222222222
+@Email = "user5@emial.com"
+
+### Users Health
+GET {{Api_HostAddress}}/api/users/health
+Accept: application/json
+
+###
+
+### Register User
+POST {{Api_HostAddress}}/api/users/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": {{Email}},
+  "password": "Password123!",
+  "userName": "john_doe"
+}
+
+###
+
+### Confirm User
+GET {{Api_HostAddress}}/api/users/confirm?token=0755b167ed5049a691af18c44214717e
+Content-Type: application/json
+Accept: application/json
+
+###
+
+### Login User
+POST {{Api_HostAddress}}/api/users/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": {{Email}},
+  "password": "Password123!"
+}
+
+###
+
+### Impersonate User
+POST {{Api_HostAddress}}/api/users/impersonate
+Content-Type: application/json
+Accept: application/json
+
+{
+  "targetUserId": "{{UserId}}"
+}
+
+###
+
+### Get Current User
+GET {{Api_HostAddress}}/api/users/me
+Accept: application/json
+
+###
+
+### Remove Current User
+DELETE {{Api_HostAddress}}/api/users/me
+Accept: application/json

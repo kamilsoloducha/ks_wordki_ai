@@ -1,0 +1,301 @@
+.group-modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: max(1.5rem, env(safe-area-inset-top))
+    max(1rem, env(safe-area-inset-right))
+    max(1.5rem, env(safe-area-inset-bottom))
+    max(1rem, env(safe-area-inset-left));
+  background: color-mix(in srgb, #0f0f12 52%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  overflow-y: auto;
+}
+
+.group-modal {
+  width: 100%;
+  max-width: 26rem;
+  margin: auto;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  box-shadow:
+    0 20px 50px color-mix(in srgb, #000 28%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--border) 40%, transparent);
+}
+
+.group-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1rem 1.15rem 0.65rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.group-modal__title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text-h);
+}
+
+.group-modal__close {
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.group-modal__close:hover {
+  background: var(--code-bg);
+}
+
+.group-modal__close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.group-modal__banner {
+  margin: 0.85rem 1.15rem 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background: color-mix(in srgb, #dc2626 12%, var(--bg));
+  color: color-mix(in srgb, #dc2626 85%, var(--text-h));
+  border: 1px solid color-mix(in srgb, #dc2626 22%, transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+  .group-modal__banner {
+    background: color-mix(in srgb, #f87171 14%, var(--bg));
+    color: #fecaca;
+    border-color: color-mix(in srgb, #f87171 28%, transparent);
+  }
+}
+
+.group-modal__form {
+  padding: 1rem 1.15rem 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.group-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.group-modal__field label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+.group-modal__field-hint {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--text);
+  opacity: 0.9;
+}
+
+.group-modal__field input {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 1rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.group-modal__field input:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.group-modal__field input.has-error {
+  border-color: color-mix(in srgb, #dc2626 55%, var(--border));
+}
+
+.group-modal__error {
+  font-size: 0.8125rem;
+  color: #dc2626;
+}
+
+@media (prefers-color-scheme: dark) {
+  .group-modal__error {
+    color: #f87171;
+  }
+}
+
+.group-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.group-modal__btn {
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 0.55rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition:
+    filter 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.group-modal__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.group-modal__btn--ghost {
+  color: var(--text-h);
+  background: transparent;
+  border-color: var(--border);
+}
+
+.group-modal__btn--ghost:hover:not(:disabled) {
+  background: var(--code-bg);
+}
+
+.group-modal__btn--primary {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.group-modal__btn--primary:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.group-modal__btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.group-modal--wide {
+  max-width: 40rem;
+}
+
+.group-modal__textarea {
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.4;
+  padding: 0.55rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  resize: vertical;
+  min-height: 2.75rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.group-modal__textarea:focus {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.group-modal__textarea.has-error {
+  border-color: color-mix(in srgb, #dc2626 55%, var(--border));
+}
+
+.card-form-modal__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.25rem;
+}
+
+@media (max-width: 560px) {
+  .card-form-modal__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-form-modal__side {
+  margin: 0;
+  padding: 0.95rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 0;
+  background: color-mix(in srgb, var(--code-bg) 55%, var(--bg));
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--border) 35%, transparent);
+}
+
+.card-form-modal__side--front {
+  border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent),
+    0 1px 0 color-mix(in srgb, var(--border) 35%, transparent);
+}
+
+.card-form-modal__side--back {
+  border-color: color-mix(in srgb, #7c3aed 28%, var(--border));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #7c3aed 10%, transparent),
+    0 1px 0 color-mix(in srgb, var(--border) 35%, transparent);
+}
+
+.card-form-modal__legend {
+  float: unset;
+  width: auto;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-h);
+  margin: 0;
+  padding: 0 0 0.35rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+}
+
+.card-form-modal__side-hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--text);
+  opacity: 0.92;
+}
+
+.card-form-modal__side-type {
+  font-weight: 600;
+  color: var(--text-h);
+  letter-spacing: 0.02em;
+}

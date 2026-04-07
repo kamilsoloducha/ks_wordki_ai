@@ -1,0 +1,130 @@
+@Api_HostAddress = http://localhost:5129
+@GroupId = 1
+@CardId = 1
+
+### Cards Health
+GET {{Api_HostAddress}}/api/cards/health
+Accept: application/json
+
+###
+
+### Get Groups (userId = external user Guid from cards.users)
+GET {{Api_HostAddress}}/api/cards/groups?userId=00000000-0000-0000-0000-000000000001
+Accept: application/json
+
+###
+
+### Distinct front/back side-type pairs from user's groups (unordered: EN+PL == PL+EN; sorted as SideType1 <= SideType2)
+GET {{Api_HostAddress}}/api/cards/side-type-pairs?userId=00000000-0000-0000-0000-000000000001
+Accept: application/json
+
+###
+
+### Total word (card) count for user across all groups
+GET {{Api_HostAddress}}/api/cards/words-count?userId=00000000-0000-0000-0000-000000000001
+Accept: application/json
+
+###
+
+### Cards due before tomorrow 00:00 UTC (includes overdue). Optional: questionSideType + answerSideType
+GET {{Api_HostAddress}}/api/cards/due-today-count?userId=00000000-0000-0000-0000-000000000001
+Accept: application/json
+
+###
+
+### Due today — only groups with front EN + back PL
+GET {{Api_HostAddress}}/api/cards/due-today-count?userId=00000000-0000-0000-0000-000000000001&questionSideType=EN&answerSideType=PL
+Accept: application/json
+
+###
+
+### Lesson words — karty z jednej grupy na dziś (UTC), kierunek musi zgadzać się z typami stron grupy (EN→PL albo PL→EN)
+GET {{Api_HostAddress}}/api/cards/groups/{{GroupId}}/lesson-words?userId=00000000-0000-0000-0000-000000000001&questionSideType=EN&answerSideType=PL&limit=20
+Accept: application/json
+
+###
+
+### Create Group
+POST {{Api_HostAddress}}/api/cards/groups
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": "00000000-0000-0000-0000-000000000001",
+  "name": "English Basics",
+  "frontSideType": "EN",
+  "backSideType": "PL"
+}
+
+###
+
+### Update Group
+PATCH {{Api_HostAddress}}/api/cards/groups/{{GroupId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": "00000000-0000-0000-0000-000000000001",
+  "name": "English Basics Updated",
+  "frontSideType": "EN",
+  "backSideType": "PL"
+}
+
+###
+
+### Search cards — userId required; drawer / groupId optional; getCount & getList default false (at least one must be true)
+### Pagination: page (default 1), pageSize (default 50, max 500) — applies to list; count is always total matching rows
+### List only
+GET {{Api_HostAddress}}/api/cards/search?userId=00000000-0000-0000-0000-000000000001&drawer=2&groupId=1&getList=true&page=1&pageSize=20
+Accept: application/json
+
+###
+
+### Count only (number of matching cards)
+GET {{Api_HostAddress}}/api/cards/search?userId=00000000-0000-0000-0000-000000000001&drawer=2&getCount=true
+Accept: application/json
+
+###
+
+### Count + list (JSON: { "count", "items" }) — items are one page
+GET {{Api_HostAddress}}/api/cards/search?userId=00000000-0000-0000-0000-000000000001&getCount=true&getList=true&page=1&pageSize=20
+Accept: application/json
+
+###
+
+### Add Card To Group
+POST {{Api_HostAddress}}/api/cards/cards
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": "00000000-0000-0000-0000-000000000001",
+  "groupId": 1,
+  "frontLabel": "apple",
+  "backLabel": "jablko",
+  "frontExample": "I eat an apple.",
+  "frontComment": "fruit",
+  "backExample": "Jem jablko.",
+  "backComment": "owoc"
+}
+
+###
+
+### Update Card
+PATCH {{Api_HostAddress}}/api/cards/{{CardId}}
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": "00000000-0000-0000-0000-000000000001",
+  "front": {
+    "label": "pear",
+    "example": "I eat a pear.",
+    "comment": "fruit"
+  },
+  "back": {
+    "label": "gruszka",
+    "example": "Jem gruszke.",
+    "comment": "owoc"
+  }
+}
