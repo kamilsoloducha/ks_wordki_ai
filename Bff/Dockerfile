@@ -12,6 +12,11 @@ RUN dotnet publish Wordki.Bff.Api/Wordki.Bff.Api.csproj \
     --no-self-contained
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgssapi-krb5-2 \
+    && rm -rf /var/lib/apt/lists/*
+USER app
 WORKDIR /app
 
 ENV ASPNETCORE_URLS=http://+:5000
