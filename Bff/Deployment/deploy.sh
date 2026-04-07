@@ -18,7 +18,7 @@ set +a
 IMAGE_NAME="${IMAGE_NAME:-wordki-bff}"
 IMAGE_TAG="${IMAGE_TAG:-latest}"
 CONTAINER_NAME="${CONTAINER_NAME:-wordki-bff}"
-HOST_PORT="${HOST_PORT:-8080}"
+HOST_PORT="${HOST_PORT:-5000}"
 
 IMAGE_REF="${IMAGE_NAME}:${IMAGE_TAG}"
 
@@ -33,7 +33,7 @@ if docker ps -a --format '{{.Names}}' | grep -qx "${CONTAINER_NAME}"; then
   docker rm "${CONTAINER_NAME}" >/dev/null
 fi
 
-echo "Uruchamianie ${CONTAINER_NAME} z obrazu ${IMAGE_REF}, port hosta ${HOST_PORT}->8080..."
+echo "Uruchamianie ${CONTAINER_NAME} z obrazu ${IMAGE_REF}, sieć host, aplikacja na porcie ${HOST_PORT} (ASPNETCORE_URLS)..."
 
 # Plik tylko dla dockera: bez zmiennych skryptowych, żeby nie duplikować niepotrzebnych wpisów.
 RUNTIME_ENV="${DEPLOYMENT_DIR}/.runtime.env.tmp"
@@ -43,7 +43,7 @@ grep -v '^[[:space:]]*#' "${ENV_FILE}" | grep -v '^[[:space:]]*$' | grep -v '^IM
 
 docker run -d \
   --name "${CONTAINER_NAME}" \
-  -p "${HOST_PORT}:8080" \
+  --network host \
   --restart unless-stopped \
   --env-file "${RUNTIME_ENV}" \
   "${IMAGE_REF}"
