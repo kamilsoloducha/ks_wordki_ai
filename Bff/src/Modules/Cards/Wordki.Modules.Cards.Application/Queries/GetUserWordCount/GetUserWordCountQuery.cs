@@ -34,13 +34,10 @@ public sealed class GetUserWordCountQueryHandler(ICardsDbContext dbContext)
                 ErrorType.NotFound,
                 "userId"));
         }
-
-        var count = await (
-            from card in dbContext.Cards.AsNoTracking()
-            join g in dbContext.Groups.AsNoTracking() on card.GroupId equals g.Id
-            where g.UserId == cardsUserId
-            select card).CountAsync(cancellationToken);
-
-        return Result<int>.Success(count);
+        
+        var resultCount = await dbContext.Results.CountAsync(x => x.UserId == cardsUserId, cancellationToken);
+        var cardsCount = resultCount / 2;
+        
+        return Result<int>.Success(cardsCount);
     }
 }

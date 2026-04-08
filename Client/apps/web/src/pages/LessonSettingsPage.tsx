@@ -218,7 +218,7 @@ export function LessonSettingsPage() {
     !direction ||
     maxWords <= 0 ||
     loading ||
-    lessonMode !== 'flashcards' ||
+    !lessonMode ||
     wizardStep !== 4
 
   const poolHintEmpty =
@@ -347,8 +347,8 @@ export function LessonSettingsPage() {
               Rodzaj lekcji
             </h2>
             <p className="lesson-settings__section-hint">
-              Tryb fiszek: sam oceniasz, czy znasz odpowiedź. Tryb wpisywania: wpisujesz odpowiedź
-              i aplikacja ją sprawdza (w przygotowaniu).
+              Tryb fiszek: sam oceniasz, czy znasz odpowiedź. Tryb wpisywania: wpisujesz odpowiedź,
+              aplikacja ją porównuje, potem oceniasz, czy ją pamiętałeś.
             </p>
             <div className="lesson-settings__options" role="radiogroup" aria-label="Rodzaj lekcji">
               <label
@@ -372,20 +372,19 @@ export function LessonSettingsPage() {
                 </span>
               </label>
               <label
-                className={`lesson-settings__option lesson-settings__option--disabled ${lessonMode === 'typing' ? 'lesson-settings__option--selected' : ''}`}
+                className={`lesson-settings__option ${lessonMode === 'typing' ? 'lesson-settings__option--selected' : ''}`}
               >
                 <input
                   type="radio"
                   name="lessonMode"
                   checked={lessonMode === 'typing'}
-                  disabled
-                  onChange={() => setLessonMode('typing')}
+                  onChange={() => {
+                    setLessonMode('typing')
+                    setWizardStep(3)
+                  }}
                 />
                 <span className="lesson-settings__option-body">
-                  <span className="lesson-settings__option-title">
-                    Tryb wpisywania
-                    <span className="lesson-settings__badge">wkrótce</span>
-                  </span>
+                  <span className="lesson-settings__option-title">Tryb wpisywania</span>
                   <p className="lesson-settings__option-desc">
                     Wpisujesz tłumaczenie; aplikacja porówna odpowiedź z oczekiwaną.
                   </p>
@@ -402,7 +401,9 @@ export function LessonSettingsPage() {
                 <p className="lesson-settings__picked-label">Rodzaj lekcji</p>
                 <p className="lesson-settings__picked-value">{modeLabel(lessonMode)}</p>
                 <p className="lesson-settings__picked-desc">
-                  Sam oceniasz, czy znasz odpowiedź; tempo ustawiasz Ty.
+                  {lessonMode === 'flashcards'
+                    ? 'Sam oceniasz, czy znasz odpowiedź; tempo ustawiasz Ty.'
+                    : 'Wpisujesz odpowiedź; po sprawdzeniu oceniasz, czy ją pamiętałeś.'}
                 </p>
               </div>
               <button

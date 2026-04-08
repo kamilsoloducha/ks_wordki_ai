@@ -318,6 +318,18 @@ export class WordkiBackendService {
     }
   }
 
+  /** `PUT /api/cards/tick` — ustawia `is_ticked = true` dla wiersza `cards.results`. */
+  async tickCardResult(userId: string, resultId: number): Promise<void> {
+    try {
+      await this.http.put('/api/cards/tick', {
+        userId,
+        resultId,
+      });
+    } catch (e) {
+      throw toWordkiApiError(e);
+    }
+  }
+
   /** `POST /api/lessons?userId=` — tworzy rekord lekcji (np. przed sesją fiszek). */
   async createLesson(
     userId: string,

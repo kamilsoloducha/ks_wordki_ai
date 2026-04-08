@@ -21,3 +21,5 @@ public sealed record UpdateCardGroupRequest(
     string BackSideType);
 
 public sealed record UpdateCardRequest(Guid UserId, CardSideDto Front, CardSideDto Back);
+
+public sealed record TickCardResultRequest(Guid UserId, long ResultId);

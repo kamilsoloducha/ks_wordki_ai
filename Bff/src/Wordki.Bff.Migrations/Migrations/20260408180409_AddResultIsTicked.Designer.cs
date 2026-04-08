@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Wordki.Bff.Migrations.Contexts;
@@ -11,9 +12,11 @@ using Wordki.Bff.Migrations.Contexts;
 namespace Wordki.Bff.Migrations.Migrations
 {
     [DbContext(typeof(AppMigrationDbContext))]
-    partial class AppMigrationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260408180409_AddResultIsTicked")]
+    partial class AddResultIsTicked
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -14,6 +14,12 @@ public sealed class Result
     /// </summary>
     public DateTime? NextRepeatUtc { get; private set; }
     public int Counter { get; private set; }
+
+    /// <summary>
+    /// Oznaczenie strony (tick) przez użytkownika w interfejsie, niezależnie od SRS.
+    /// </summary>
+    public bool IsTicked { get; private set; }
+
     public User User { get; init; } = null!;
     public CardSide CardSide { get; init; } = null!;
 
@@ -33,9 +39,12 @@ public sealed class Result
             CardSideId = cardSideId,
             Drawer = 0,
             Counter = 0,
-            NextRepeatUtc = nextRepeatUtc
+            NextRepeatUtc = nextRepeatUtc,
+            IsTicked = false,
         };
     }
+
+    public void SetTicked(bool value) => IsTicked = value;
 
     public void RegisterSuccess(DateTime nextRepeatUtc)
     {

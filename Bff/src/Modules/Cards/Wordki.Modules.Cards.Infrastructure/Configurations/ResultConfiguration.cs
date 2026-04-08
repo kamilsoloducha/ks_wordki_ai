@@ -39,6 +39,10 @@ public sealed class ResultConfiguration : IEntityTypeConfiguration<Result>
             .HasColumnName("counter")
             .IsRequired();
 
+        builder.Property(x => x.IsTicked)
+            .HasColumnName("is_ticked")
+            .IsRequired();
+
         builder.HasOne(x => x.CardSide)
             .WithOne(x => x.Result)
             .HasForeignKey<Result>(x => x.CardSideId)

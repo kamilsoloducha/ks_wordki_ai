@@ -128,3 +128,15 @@ Accept: application/json
     "comment": "owoc"
   }
 }
+
+###
+
+### Tick SRS result (sets is_ticked = true). resultId = cards.results.id
+PUT {{Api_HostAddress}}/api/cards/tick
+Content-Type: application/json
+Accept: application/json
+
+{
+  "userId": "00000000-0000-0000-0000-000000000001",
+  "resultId": 1
+}

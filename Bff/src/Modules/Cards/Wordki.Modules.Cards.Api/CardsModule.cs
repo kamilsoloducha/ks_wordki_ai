@@ -10,6 +10,7 @@ using Wordki.Modules.Cards.Api.Responses;
 using Wordki.Modules.Cards.Application.Commands.AddCardToGroup;
 using Wordki.Modules.Cards.Application.Commands.CreateGroup;
 using Wordki.Modules.Cards.Application.Commands.DeleteCard;
+using Wordki.Modules.Cards.Application.Commands.TickCardResult;
 using Wordki.Modules.Cards.Application.Commands.UpdateCard;
 using Wordki.Modules.Cards.Application.Commands.UpdateCardGroup;
 using Wordki.Modules.Cards.Application.Queries.GetGroupCards;
@@ -530,6 +531,21 @@ public static class CardsModule
 
                 var result = await sender.Send(
                     new DeleteCardCommand(userId.Value, id),
+                    cancellationToken);
+
+                if (result.IsFailure)
+                {
+                    return MapCardsFailure(result.Errors);
+                }
+
+                return Results.NoContent();
+            });
+        group.MapPut(
+            "/tick",
+            async (TickCardResultRequest request, ISender sender, CancellationToken cancellationToken) =>
+            {
+                var result = await sender.Send(
+                    new TickCardResultCommand(request.UserId, request.ResultId),
                     cancellationToken);
 
                 if (result.IsFailure)
