@@ -7,6 +7,7 @@ using Wordki.Bff.SharedKernel.Abstractions;
 using Wordki.Bff.SharedKernel.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+var corsAllowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 
 var loggerConfiguration = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration);
@@ -34,22 +35,30 @@ try
     builder.Services.AddLessonsModule();
     builder.Services.AddHostedService<OutboxMessageProcessorHostedService>();
 
-    if (builder.Environment.IsDevelopment())
+    builder.Services.AddCors(options =>
     {
-        builder.Services.AddCors(options =>
+        options.AddDefaultPolicy(policy =>
         {
-            options.AddDefaultPolicy(policy =>
+            if (corsAllowedOrigins.Length > 0)
+            {
+                policy.WithOrigins(corsAllowedOrigins).AllowAnyHeader().AllowAnyMethod();
+                return;
+            }
+
+            // Keep local dev easy when no explicit CORS origins are configured.
+            if (builder.Environment.IsDevelopment())
             {
                 policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-            });
+            }
         });
-    }
+    });
 
     var app = builder.Build();
 
+    app.UseCors();
+
     if (app.Environment.IsDevelopment())
     {
-        app.UseCors();
         app.MapOpenApi();
     }
 
