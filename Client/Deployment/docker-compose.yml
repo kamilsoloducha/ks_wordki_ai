@@ -1,0 +1,10 @@
+services:
+  web:
+    container_name: wordki-web
+    build:
+      context: ..
+      dockerfile: apps/web/Dockerfile
+    image: wordki-web:latest
+    restart: unless-stopped
+    ports:
+      - "5173:80"
