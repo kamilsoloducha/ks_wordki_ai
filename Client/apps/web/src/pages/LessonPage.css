@@ -258,6 +258,12 @@
   outline-offset: 2px;
 }
 
+.lesson-flash__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .lesson-flash__tick {
   flex-shrink: 0;
   font: inherit;
@@ -365,6 +371,16 @@
   outline-offset: 2px;
 }
 
+.lesson-flash__type-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
+}
+
+.lesson-flash__type-submit:disabled:hover {
+  filter: grayscale(0.2);
+}
+
 .lesson-flash__type-verdict {
   padding: 1rem 1.15rem;
   border-radius: 12px;
@@ -405,6 +421,10 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
+}
+
+.lesson-flash__grade-check {
+  grid-column: 1 / -1;
 }
 
 .lesson-flash__btn {

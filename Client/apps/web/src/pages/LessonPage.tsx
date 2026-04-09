@@ -1,13 +1,12 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { WordkiApiError, type GroupCard, type UserCardGroup } from '@wordki/shared'
 import { useAuth } from '../auth/AuthContext'
-import { useWordkiBackend } from '../hooks/useWordkiBackend'
+import { LessonFlashCard } from '../components/lesson/LessonFlashCard'
+import { LessonTypingCard } from '../components/lesson/LessonTypingCard'
 import { LessonPostHistory } from '../components/LessonPostHistory'
-import {
-  buildLessonQueue,
-  type LessonQueueItem,
-} from '../lib/lessonCardSides'
+import { useWordkiBackend } from '../hooks/useWordkiBackend'
+import { buildLessonQueue, type LessonQueueItem } from '../lib/lessonCardSides'
 import type {
   LessonFlashcardAnswerRecord,
   LessonLocationState,
@@ -69,17 +68,10 @@ export function LessonPage() {
   const [startingLesson, setStartingLesson] = useState(false)
   const [queue, setQueue] = useState<LessonQueueItem[]>([])
   const [totalInSession, setTotalInSession] = useState(0)
-  const [answerRevealed, setAnswerRevealed] = useState(false)
   const [answerHistory, setAnswerHistory] = useState<LessonFlashcardAnswerRecord[]>([])
   const [tickBusy, setTickBusy] = useState(false)
   const [tickDone, setTickDone] = useState(false)
   const [tickError, setTickError] = useState<string | null>(null)
-
-  /** Tryb wpisywania: wpis użytkownika i etap po zatwierdzeniu Enter. */
-  const [typingDraft, setTypingDraft] = useState('')
-  const [typingChecked, setTypingChecked] = useState(false)
-  const [typingExactMatch, setTypingExactMatch] = useState<boolean | null>(null)
-  const typingInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -151,12 +143,6 @@ export function LessonPage() {
     setTickError(null)
   }, [currentResultId])
 
-  useEffect(() => {
-    setTypingDraft('')
-    setTypingChecked(false)
-    setTypingExactMatch(null)
-  }, [currentResultId])
-
   const startLesson = useCallback(async () => {
     if (!settings || !cards?.length || !userGroups || !user?.id) return
     setLoadError(null)
@@ -177,7 +163,6 @@ export function LessonPage() {
       setLessonId(id)
       setQueue(q)
       setTotalInSession(q.length)
-      setAnswerRevealed(false)
       setAnswerHistory([])
       setLessonStarted(true)
     } catch (err) {
@@ -195,29 +180,6 @@ export function LessonPage() {
       setStartingLesson(false)
     }
   }, [api, cards, settings, user?.id, userGroups])
-
-  const submitTypingAnswer = useCallback(() => {
-    if (typingChecked) return
-    const item = queue[0]
-    if (!item) return
-    const expected = item.answer.label.trim()
-    const got = typingDraft.trim()
-    setTypingExactMatch(got === expected)
-    setTypingChecked(true)
-  }, [queue, typingChecked, typingDraft])
-
-  useEffect(() => {
-    if (
-      !lessonStarted ||
-      settings?.lessonMode !== 'typing' ||
-      !queue[0] ||
-      typingChecked
-    ) {
-      return
-    }
-    const id = requestAnimationFrame(() => typingInputRef.current?.focus())
-    return () => cancelAnimationFrame(id)
-  }, [lessonStarted, settings?.lessonMode, typingChecked, currentResultId])
 
   const onKnew = useCallback(async () => {
     if (!user?.id || lessonId === null) return
@@ -238,7 +200,6 @@ export function LessonPage() {
     }
     setAnswerHistory((prev) => [...prev, record])
     setQueue((prev) => prev.slice(1))
-    setAnswerRevealed(false)
   }, [api, user?.id, lessonId, queue])
 
   const onDidNotKnow = useCallback(async () => {
@@ -264,103 +225,7 @@ export function LessonPage() {
       const [first, ...rest] = prev
       return [...rest, first]
     })
-    setAnswerRevealed(false)
   }, [api, user?.id, lessonId, queue])
-
-  useEffect(() => {
-    if (!lessonStarted || settings?.lessonMode !== 'flashcards' || !queue[0]) {
-      return
-    }
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLElement) {
-        const tag = e.target.tagName
-        if (
-          tag === 'INPUT' ||
-          tag === 'TEXTAREA' ||
-          tag === 'SELECT' ||
-          e.target.isContentEditable
-        ) {
-          return
-        }
-      }
-
-      if (!answerRevealed) {
-        if (e.key === 'Enter') {
-          e.preventDefault()
-          setAnswerRevealed(true)
-        }
-        return
-      }
-
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault()
-        void onDidNotKnow()
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault()
-        void onKnew()
-      }
-    }
-
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [
-    answerRevealed,
-    lessonStarted,
-    onDidNotKnow,
-    onKnew,
-    queue,
-    settings?.lessonMode,
-  ])
-
-  useEffect(() => {
-    if (!lessonStarted || settings?.lessonMode !== 'typing' || !queue[0] || !typingChecked) {
-      return
-    }
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLElement) {
-        const tag = e.target.tagName
-        if (
-          tag === 'INPUT' ||
-          tag === 'TEXTAREA' ||
-          tag === 'SELECT' ||
-          e.target.isContentEditable
-        ) {
-          return
-        }
-      }
-
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        if (typingExactMatch === true) {
-          void onKnew()
-        } else if (typingExactMatch === false) {
-          void onDidNotKnow()
-        }
-        return
-      }
-
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault()
-        void onDidNotKnow()
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault()
-        void onKnew()
-      }
-    }
-
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [
-    lessonStarted,
-    onDidNotKnow,
-    onKnew,
-    queue,
-    settings?.lessonMode,
-    typingChecked,
-    typingExactMatch,
-  ])
 
   const onTickResult = useCallback(async () => {
     const item = queue[0]
@@ -393,7 +258,33 @@ export function LessonPage() {
     return null
   }
 
-  const current = queue[0]
+  if (loadError) {
+    return (
+      <main className="lesson-page">
+        <div className="lesson-page__inner lesson-page__inner--wide">
+          <div className="register-page__banner" role="alert">
+            {loadError}
+          </div>
+          <Link to="/lesson-settings" className="lesson-page__back">
+            ← Ustawienia lekcji
+          </Link>
+        </div>
+      </main>
+    )
+  }
+
+  if (loadingCards) {
+    return (
+      <main className="lesson-page">
+        <div className="lesson-page__inner lesson-page__inner--wide">
+          <p className="lesson-page__status" aria-live="polite">
+            Wczytywanie kart…
+          </p>
+        </div>
+      </main>
+    )
+  }
+
   const sessionDone = lessonStarted && totalInSession > 0 && queue.length === 0
   const indexInSession =
     totalInSession > 0 ? totalInSession - queue.length + 1 : 0
@@ -403,21 +294,7 @@ export function LessonPage() {
       <div
         className={`lesson-page__inner lesson-page__inner--wide${sessionDone ? ' lesson-page__inner--summary' : ''}`}
       >
-        {loadError && (
-          <div className="register-page__banner" role="alert">
-            {loadError}
-          </div>
-        )}
-
-        {loadingCards && !loadError && (
-          <p className="lesson-page__status" aria-live="polite">
-            Wczytywanie kart…
-          </p>
-        )}
-
-        {!loadingCards &&
-          !loadError &&
-          cards &&
+        {cards &&
           cards.length === 0 &&
           !lessonStarted && (
             <div className="lesson-page__panel">
@@ -431,9 +308,7 @@ export function LessonPage() {
             </div>
           )}
 
-        {!loadingCards &&
-          !loadError &&
-          settings.lessonMode === 'typing' &&
+        {settings.lessonMode === 'typing' &&
           !lessonStarted &&
           cards &&
           cards.length > 0 && (
@@ -463,9 +338,7 @@ export function LessonPage() {
             </div>
           )}
 
-        {!loadingCards &&
-          !loadError &&
-          settings.lessonMode === 'flashcards' &&
+        {settings.lessonMode === 'flashcards' &&
           !lessonStarted &&
           cards &&
           cards.length > 0 && (
@@ -494,215 +367,32 @@ export function LessonPage() {
             </div>
           )}
 
-        {lessonStarted && settings.lessonMode === 'flashcards' && current && (
-          <div className="lesson-flash">
-            <div className="lesson-flash__top">
-              <p className="lesson-flash__progress" aria-live="polite">
-                Karta {indexInSession} z {totalInSession}
-              </p>
-              <button
-                type="button"
-                className="lesson-flash__tick"
-                disabled={
-                  tickBusy || tickDone || typeof current.questionResultId !== 'number'
-                }
-                title="Oznacz stronę pytania (tick) w bazie"
-                onClick={() => void onTickResult()}
-              >
-                {tickBusy
-                  ? '…'
-                  : tickDone
-                    ? '✓ Tick'
-                    : 'Tick'}
-              </button>
-            </div>
-            {tickError && (
-              <p className="lesson-flash__tick-msg lesson-flash__tick-msg--error" role="alert">
-                {tickError}
-              </p>
-            )}
-            <div className="lesson-flash__card" role="region" aria-label="Karta">
-              <div className="lesson-flash__block lesson-flash__block--question">
-                <p className="lesson-flash__label">Pytanie</p>
-                <p className="lesson-flash__text">{current.question.label}</p>
-                {current.question.example.trim() !== '' && (
-                  <p className="lesson-flash__example">{current.question.example}</p>
-                )}
-              </div>
-
-              <div
-                className={`lesson-flash__block lesson-flash__block--answer${answerRevealed ? '' : ' lesson-flash__block--answer-pending'}`}
-              >
-                <p className="lesson-flash__label">Odpowiedź</p>
-                {answerRevealed ? (
-                  <>
-                    <p className="lesson-flash__text">{current.answer.label}</p>
-                    {current.answer.example.trim() !== '' && (
-                      <p className="lesson-flash__example">{current.answer.example}</p>
-                    )}
-                  </>
-                ) : (
-                  <p className="lesson-flash__answer-placeholder">Ukryta</p>
-                )}
-              </div>
-
-              {!answerRevealed && (
-                <button
-                  type="button"
-                  className="lesson-flash__reveal"
-                  onClick={() => setAnswerRevealed(true)}
-                >
-                  Pokaż odpowiedź
-                  <span className="lesson-flash__reveal-hint">Enter</span>
-                </button>
-              )}
-
-              {answerRevealed && (
-                <div
-                  className="lesson-flash__grade"
-                  role="group"
-                  aria-label="Oceń, czy znałeś odpowiedź. Skróty: strzałka w lewo — nie znałem, w prawo — znałem."
-                >
-                  <button
-                    type="button"
-                    className="lesson-flash__btn lesson-flash__btn--dont"
-                    title="Skrót: strzałka w lewo (←)"
-                    onClick={onDidNotKnow}
-                  >
-                    Nie znałem
-                  </button>
-                  <button
-                    type="button"
-                    className="lesson-flash__btn lesson-flash__btn--know"
-                    title="Skrót: strzałka w prawo (→)"
-                    onClick={onKnew}
-                  >
-                    Znałem
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+        {lessonStarted && settings.lessonMode === 'flashcards' && (
+          <LessonFlashCard
+            current={queue[0] ?? null}
+            indexInSession={indexInSession}
+            totalInSession={totalInSession}
+            tickBusy={tickBusy}
+            tickDone={tickDone}
+            tickError={tickError}
+            onTick={() => void onTickResult()}
+            onKnew={() => void onKnew()}
+            onDidNotKnow={() => void onDidNotKnow()}
+          />
         )}
 
-        {lessonStarted && settings.lessonMode === 'typing' && current && (
-          <div className="lesson-flash">
-            <div className="lesson-flash__top">
-              <p className="lesson-flash__progress" aria-live="polite">
-                Karta {indexInSession} z {totalInSession}
-              </p>
-              <button
-                type="button"
-                className="lesson-flash__tick"
-                disabled={
-                  tickBusy || tickDone || typeof current.questionResultId !== 'number'
-                }
-                title="Oznacz stronę pytania (tick) w bazie"
-                onClick={() => void onTickResult()}
-              >
-                {tickBusy
-                  ? '…'
-                  : tickDone
-                    ? '✓ Tick'
-                    : 'Tick'}
-              </button>
-            </div>
-            {tickError && (
-              <p className="lesson-flash__tick-msg lesson-flash__tick-msg--error" role="alert">
-                {tickError}
-              </p>
-            )}
-            <div className="lesson-flash__card" role="region" aria-label="Karta — tryb wpisywania">
-              <div className="lesson-flash__block lesson-flash__block--question">
-                <p className="lesson-flash__label">Pytanie</p>
-                <p className="lesson-flash__text">{current.question.label}</p>
-                {current.question.example.trim() !== '' && (
-                  <p className="lesson-flash__example">{current.question.example}</p>
-                )}
-              </div>
-
-              {!typingChecked && (
-                <form
-                  className="lesson-flash__type-form"
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    submitTypingAnswer()
-                  }}
-                >
-                  <label className="lesson-flash__type-label" htmlFor="lesson-type-answer">
-                    Twoja odpowiedź
-                  </label>
-                  <input
-                    id="lesson-type-answer"
-                    ref={typingInputRef}
-                    type="text"
-                    className="lesson-flash__type-input"
-                    value={typingDraft}
-                    onChange={(e) => setTypingDraft(e.target.value)}
-                    autoComplete="off"
-                    spellCheck={false}
-                    disabled={typingChecked}
-                  />
-                  <button type="submit" className="lesson-flash__type-submit">
-                    Zatwierdź
-                    <span className="lesson-flash__reveal-hint">Enter</span>
-                  </button>
-                </form>
-              )}
-
-              {typingChecked && typingExactMatch !== null && (
-                <>
-                  <div
-                    className={`lesson-flash__block lesson-flash__type-verdict${typingExactMatch ? ' lesson-flash__type-verdict--ok' : ' lesson-flash__type-verdict--bad'}`}
-                    role="status"
-                  >
-                    <p className="lesson-flash__type-verdict-text">
-                      {typingExactMatch
-                        ? 'Zgodne z oczekiwaną odpowiedzią.'
-                        : 'Niezgodne z oczekiwaną odpowiedzią.'}
-                    </p>
-                    <div className="lesson-flash__type-answer-box">
-                      <p className="lesson-flash__label">Odpowiedź</p>
-                      <p className="lesson-flash__text">{current.answer.label}</p>
-                      {current.answer.example.trim() !== '' && (
-                        <p className="lesson-flash__example">{current.answer.example}</p>
-                      )}
-                    </div>
-                  </div>
-                  <div
-                    className="lesson-flash__grade"
-                    role="group"
-                    aria-label="Jak oceniasz swoją znajomość? Enter — sugerowany wybór, strzałka w lewo — nie wiem, w prawo — wiem."
-                  >
-                    <button
-                      type="button"
-                      className={`lesson-flash__btn lesson-flash__btn--dont${typingExactMatch === false ? ' lesson-flash__btn--suggested' : ''}`}
-                      title={
-                        typingExactMatch === false
-                          ? 'Skrót: Enter lub strzałka w lewo (←)'
-                          : 'Skrót: strzałka w lewo (←)'
-                      }
-                      onClick={onDidNotKnow}
-                    >
-                      Nie wiem
-                    </button>
-                    <button
-                      type="button"
-                      className={`lesson-flash__btn lesson-flash__btn--know${typingExactMatch === true ? ' lesson-flash__btn--suggested' : ''}`}
-                      title={
-                        typingExactMatch === true
-                          ? 'Skrót: Enter lub strzałka w prawo (→)'
-                          : 'Skrót: strzałka w prawo (→)'
-                      }
-                      onClick={onKnew}
-                    >
-                      Wiem
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
+        {lessonStarted && settings.lessonMode === 'typing' && (
+          <LessonTypingCard
+            current={queue[0] ?? null}
+            indexInSession={indexInSession}
+            totalInSession={totalInSession}
+            tickBusy={tickBusy}
+            tickDone={tickDone}
+            tickError={tickError}
+            onTick={() => void onTickResult()}
+            onKnew={() => void onKnew()}
+            onDidNotKnow={() => void onDidNotKnow()}
+          />
         )}
 
         {sessionDone && (
